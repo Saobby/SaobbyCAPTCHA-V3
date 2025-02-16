@@ -154,3 +154,4 @@ cython_debug/
 backgrounds/
 fonts/
 words.txt
+templates/
