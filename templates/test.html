@@ -1,5 +1,18 @@
-<form action="/" method="post">
-    <input value="提交" type="submit">
-    <div id="scpc-v2" show-trigger="true"></div>
-</form>
-<script src="https://www.saobby.com/static/js/saobbyCaptchaV2.js"></script>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>测试</title>
+    </head>
+    <body>
+        <form method="post" action="/">
+            <script src="/static/js/saobbyCaptchaV3.js"></script>
+            <div id="captcha-div"></div>
+            <script>
+                const captcha = new SaobbyCaptchaV3("", true, document.getElementById('captcha-div'));
+            </script>
+            <input type="submit">
+        </form>
+
+    </body>
+</html>

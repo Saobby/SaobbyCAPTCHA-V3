@@ -17,7 +17,7 @@ CHALLENGE_MAX_ROTATE_ANGLE = 45
 # 在空闲时，程序会预先生成一些验证码图片，以便在访问量突然变大时快速应对
 # 当预先生成的图片被消耗后，程序会自动填补新的图片，使可用的图片维持在一定数量
 # 设置维持的数量的大小(设为 0 来禁用预生成)
-IMAGE_POOL_SIZE = 1000
+IMAGE_POOL_SIZE = 500
 
 # 验证码的完成时限(单位: s)
 CHALLENGE_EXPIRATION_TIME = 300
@@ -42,7 +42,7 @@ BYPASS_EXPIRATION_TIME = 300
 # Redis 地址
 REDIS_HOST = "redis"
 # Redis 端口
-REDIS_PORT = 6379
+REDIS_PORT = 6399
 # Redis 用户名(如果没有设置请留空)
 REDIS_USERNAME = ""
 # Redis 访问密码(如果没有设置请留空)

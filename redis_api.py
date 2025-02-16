@@ -6,7 +6,7 @@ connection_pool = redis.ConnectionPool(
     port=REDIS_PORT,
     username=REDIS_USERNAME,
     password=REDIS_PASSWORD,
-    decode_responses=True,
+    decode_responses=False,
     retry_on_timeout=REDIS_RETRY_ON_TIMEOUT,
     max_connections=REDIS_MAX_CONNECTIONS
 )

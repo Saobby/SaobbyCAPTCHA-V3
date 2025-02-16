@@ -67,7 +67,7 @@ def gen_challenge() -> tuple[str, list[tuple[str, int, int]], bytes, bytes]:
     bg_img = Image.open(random.choice(bg_image_paths))
     word = random.choice(words)
     chr_pos = []  # 格式: [("字", x, y), ("字", x, y)]
-    tip_img = Image.new("RGBA", (int(TIP_FONT_SIZE*1.2*len(word)), int(TIP_FONT_SIZE*1.4)), (255, 255, 255, 0))
+    tip_img = Image.new("RGBA", (int(TIP_FONT_SIZE*1.2*5), int(TIP_FONT_SIZE*1.4)), (255, 255, 255, 0))  # 创建空白的提示图片
     count = 0
     for character in word:
         challenge_chr_img = Image.new("RGBA", (int(CHALLENGE_FONT_SIZE * 1.2), int(CHALLENGE_FONT_SIZE * 1.2)), (255, 255, 255, 0))

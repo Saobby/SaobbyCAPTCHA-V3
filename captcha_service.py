@@ -29,7 +29,7 @@ def get_challenge():
     if IMAGE_POOL_SIZE <= 0:
         return image_generator.gen_challenge()
     with redis_api.RedisSession() as db_session:
-        challenge = db_session.rpop(REDIS_PREFIX+"image_pool")
+        challenge = db_session.rpop(REDIS_PREFIX+"image_pool", )
         thread = threading.Thread(target=fill_pool)
         thread.start()  # 回填池
         if challenge is None:
@@ -58,20 +58,19 @@ def calculate_distance(x0: [int, float], y0: [int, float], x1: [int, float], y1:
     return ((x0-x1)**2+(y0-y1)**2)**0.5
 
 
-def create_captcha() -> tuple[str, int, str, str]:
+def create_captcha() -> tuple[str, str, str]:
     """
     创建一个验证码
     :return: 是一个 tuple.
         第一项是一个 str, 为验证码 id
-        第二项是一个 int, 为词汇字数
-        第三项是一个 str, 为提示图片的 url
-        第四项是一个 str, 为验证图片的 url
+        第二项是一个 str, 为提示图片的 url
+        第三项是一个 str, 为验证图片的 url
     """
     challenge = get_challenge()
     challenge_id = gen_random_str(8)
     with redis_api.RedisSession() as db_session:
         db_session.setex(REDIS_PREFIX+"challenge_"+challenge_id, CHALLENGE_EXPIRATION_TIME, pickle.dumps(challenge))
-    return challenge_id, len(challenge[0]), \
+    return challenge_id, \
         "data:image/jpg;base64,"+base64_encode(challenge[2]), \
         "data:image/jpg;base64,"+base64_encode(challenge[3])
 
@@ -96,7 +95,7 @@ def verify_answer(challenge_id: str, pos_list: list[tuple[int, int]]) -> bool:
             for check_chr, check_x, check_y in check_pos_list:
                 if calculate_distance(users_x, users_y, check_x, check_y) <= CHALLENGE_FONT_SIZE / 2 * 1.2:
                     users_chr = check_chr
-                    check_pos_list.remove([check_chr, check_x, check_y])
+                    check_pos_list.remove((check_chr, check_x, check_y))
                     break
             if users_chr is None:  # 用户没有点到任何字上
                 db_session.delete(key)  # 用户没有答对，这个挑战作废

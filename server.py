@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from server_util import gen_return, rate_limit, check_args, get_client_ip
 from config import CORS_ORIGIN, API_VERIFY_TOKEN_PATH
 import user_service
@@ -7,16 +7,21 @@ import captcha_service
 app = Flask(__name__)
 
 
-@app.route("/api/gen_challenge", methods=["post"])
+@app.route("/")
+def test():
+    return render_template("test.html")
+
+
+@app.route("/api/gen_challenge", methods=["post", "get"])
 @rate_limit
 def api_gen_challenge():
     ip = get_client_ip()
     if user_service.can_bypass(ip):  # 检查用户是否可以跳过验证码
         token = user_service.gen_token()
         return gen_return(0, "OK", {"token": token})
-    challenge_id, word_lens, tip_img_url, challenge_img_url = captcha_service.create_captcha()
+    challenge_id, tip_img_url, challenge_img_url = captcha_service.create_captcha()
     user_service.bind_challenge_id_with_user(challenge_id, ip)
-    return gen_return(0, "OK", {"id": challenge_id, "lens": word_lens, "tip": tip_img_url, "challenge": challenge_img_url})
+    return gen_return(0, "OK", {"id": challenge_id, "tip": tip_img_url, "challenge": challenge_img_url})
 
 
 @app.route("/api/get_token", methods=["post"])
@@ -73,4 +78,4 @@ def add_header(rsp):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9876)
+    app.run(port=9876)
