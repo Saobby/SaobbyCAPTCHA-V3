@@ -9,7 +9,7 @@
             <script src="/static/js/saobbyCaptchaV3.js"></script>
             <div id="captcha-div"></div>
             <script>
-                const captcha = new SaobbyCaptchaV3({apiBaseUrl:"",once:false});
+                const captcha = new SaobbyCaptchaV3({apiBaseUrl:"",showTrigger:true,container:document.getElementById("captcha-div")});
             </script>
             <input type="submit">
         </form>

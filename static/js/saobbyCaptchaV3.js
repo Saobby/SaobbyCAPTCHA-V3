@@ -120,9 +120,10 @@ class SaobbyCaptchaV3{
 
     #putNumberMark(number, x, y){
         const ele = this.#elements.numberMarks[number-1];
-        ele.style.left = x - 16;
-        ele.style.top = y - 16;
+        ele.style.left = x - 16 + "px";
+        ele.style.top = y - 16 + "px";
         ele.hidden = false;
+        ele.offsetHeight;
         this.#pos.push([x, y]);
         this.#updateSubmitButtonStatus();
     }
@@ -166,6 +167,13 @@ class SaobbyCaptchaV3{
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            display: none;
+        }
+        .SCV3-cover.SCV3-show {
+            display: flex;
+            opacity: 1;
         }
         .SCV3-trigger{
             padding: 12px 16px;
@@ -285,9 +293,13 @@ class SaobbyCaptchaV3{
             color: #5064e1;
             position: absolute;
             cursor: pointer;
+            opacity: 1;
+            transition: opacity 0.2s ease;
         }
         .SCV3-number-mark[hidden]{
-            display: none !important;
+            opacity: 0;
+            display: flex !important;
+            pointer-events: none;
         }
         .SCV3-icon{
             width: 16px;
@@ -456,11 +468,17 @@ class SaobbyCaptchaV3{
     }
 
     #open(){
-        this.#elements.cover.hidden = false;
+        this.#elements.cover.style.display = "flex";
+        this.#elements.cover.offsetHeight;
+        this.#elements.cover.classList.add("SCV3-show");
     }
 
     #close(){
-        this.#elements.cover.hidden = true;
+        const cover = this.#elements.cover;
+        cover.classList.remove("SCV3-show");
+        setTimeout(() => {
+            cover.style.display = "none";
+        }, 200);
     }
 
     #cancel(){
