@@ -452,6 +452,10 @@ class SaobbyCaptchaV3{
             id_: this.#challengeId,
             pos: this.#pos
         });
+        this.#setButtonHTML(this.#elements.submitButton);
+        this.#elements.closeButton.disabled = false;
+        this.#elements.refreshButton.disabled = false;
+        this.#updateSubmitButtonStatus();
         if (response.retcode){
             this.#elements.result.innerHTML = response.msg;
             if (response.retcode === 1){
@@ -461,10 +465,6 @@ class SaobbyCaptchaV3{
             this.#verifyResult.result = response;
             this.#close();
         }
-        this.#setButtonHTML(this.#elements.submitButton);
-        this.#elements.closeButton.disabled = false;
-        this.#elements.refreshButton.disabled = false;
-        this.#updateSubmitButtonStatus();
     }
 
     #open(){
