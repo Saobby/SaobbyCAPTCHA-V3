@@ -154,6 +154,18 @@ class SaobbyCaptchaV3{
             border: 2px solid #ccc;
             border-radius: 12px;
             background-color: #fff;
+            z-index: 1001;
+        }
+        .SCV3-cover{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
         .SCV3-trigger{
             padding: 12px 16px;
@@ -289,29 +301,32 @@ class SaobbyCaptchaV3{
                 <span id="SCV3-trigger-text-${this.#id}">${this.#iconWithText("square", "点击进行人机验证")}</span>
             </div>
         </div>
-        <div id="SCV3-window-${this.#id}" class="SCV3-window SCV3-centered" hidden>
-            <span class="SCV3-top">请<b class="SCV3-result">依次</b>点击:</span>
-            <img width="129px" height="30px" class="SCV3-on-top SCV3-img" id="SCV3-tip-img-${this.#id}" draggable="false">
-            <div class="SCV3-challenge-img-div" id="SCV3-challenge-div-${this.#id}">
-                <img width="300" height="225" class="SCV3-img" id="SCV3-challenge-img-${this.#id}" draggable="false">
-                ${(()=>{
-                    let html = "";
-                    for (let i=1; i<=9; i++){
-                        html += `<div class="SCV3-number-mark" id="SCV3-number-mark-${i}-${this.#id}" hidden>${i}</div>`;
-                    }
-                    return html;
-                })()}
+        <div id="SCV3-cover-${this.#id}" class="SCV3-cover" hidden>
+            <div id="SCV3-window-${this.#id}" class="SCV3-window SCV3-centered">
+                <span class="SCV3-top">请<b class="SCV3-result">依次</b>点击:</span>
+                <img width="129px" height="30px" class="SCV3-on-top SCV3-img" id="SCV3-tip-img-${this.#id}" draggable="false">
+                <div class="SCV3-challenge-img-div" id="SCV3-challenge-div-${this.#id}">
+                    <img width="300" height="225" class="SCV3-img" id="SCV3-challenge-img-${this.#id}" draggable="false">
+                    ${(()=>{
+                        let html = "";
+                        for (let i=1; i<=9; i++){
+                            html += `<div class="SCV3-number-mark" id="SCV3-number-mark-${i}-${this.#id}" hidden>${i}</div>`;
+                        }
+                        return html;
+                    })()}
+                </div>
+                <button class="SCV3-right SCV3-button" type="button" id="SCV3-submit-btn-${this.#id}">${this.#iconWithText("check", "确认")}</button>
+                <button class="SCV3-button SCV3-button-text SCV3-button-icon" type="button" id="SCV3-close-btn-${this.#id}">${this.#iconWithText("x")}</button>
+                <button class="SCV3-button SCV3-button-text SCV3-button-icon" type="button" id="SCV3-refresh-btn-${this.#id}">${this.#iconWithText("refresh")}</button>
+                <span class="SCV3-result" id="SCV3-result-${this.#id}"></span>
             </div>
-            <button class="SCV3-right SCV3-button" type="button" id="SCV3-submit-btn-${this.#id}">${this.#iconWithText("check", "确认")}</button>
-            <button class="SCV3-button SCV3-button-text SCV3-button-icon" type="button" id="SCV3-close-btn-${this.#id}">${this.#iconWithText("x")}</button>
-            <button class="SCV3-button SCV3-button-text SCV3-button-icon" type="button" id="SCV3-refresh-btn-${this.#id}">${this.#iconWithText("refresh")}</button>
-            <span class="SCV3-result" id="SCV3-result-${this.#id}"></span>
         </div>
         <input id="SCV3-token-${this.#id}" type="hidden" name="SCV3_token">
         `;
         this.#elements = {
             triggerDiv: this.#gebi(`SCV3-trigger-div-${this.#id}`),
             window: this.#gebi(`SCV3-window-${this.#id}`),
+            cover: this.#gebi(`SCV3-cover-${this.#id}`),
             closeButton: this.#gebi(`SCV3-close-btn-${this.#id}`),
             tipImage: this.#gebi(`SCV3-tip-img-${this.#id}`),
             challengeImage: this.#gebi(`SCV3-challenge-img-${this.#id}`),
@@ -441,11 +456,11 @@ class SaobbyCaptchaV3{
     }
 
     #open(){
-        this.#elements.window.hidden = false;
+        this.#elements.cover.hidden = false;
     }
 
     #close(){
-        this.#elements.window.hidden = true;
+        this.#elements.cover.hidden = true;
     }
 
     #cancel(){
