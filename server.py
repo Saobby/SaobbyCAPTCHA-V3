@@ -7,6 +7,11 @@ import captcha_service
 app = Flask(__name__)
 
 
+@app.route("/")
+def test():
+    return render_template("test.html")
+
+
 @app.route("/api/gen_challenge", methods=["post", "get"])
 @rate_limit
 def api_gen_challenge():

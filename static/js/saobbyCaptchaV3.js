@@ -9,23 +9,47 @@ class SaobbyCaptchaV3{
     #verifyResult;
     #triggerVerifyFunc
     #icons;
+    #destroyed;
+    #autoCreateContainer;
 
-    constructor(apiBaseUrl, showTrigger, container){
-        this.apiBaseUrl = apiBaseUrl;
-        this.showTrigger = showTrigger;
+    constructor(options){
+        if (typeof(options) !== "object"){
+            throw new Error("请传入正确的配置");
+        }
+        this.apiBaseUrl = options.apiBaseUrl;
+        if (this.apiBaseUrl === undefined){
+            throw new Error("请配置 API 域名");
+        }
+        this.showTrigger = options.showTrigger;
+        if (this.showTrigger === undefined){
+            this.showTrigger = false;
+        }
+        this.#container = options.container;
+        this.#autoCreateContainer = false;
+        if (!this.#container){
+            if (this.showTrigger){
+                throw new Error("在启用了触发框时，您必须配置一个用于放置触发框的容器");
+            }else{
+                this.#container = document.createElement("div");
+                document.body.appendChild(this.#container);
+                this.#autoCreateContainer = true;
+            }
+        }
+        this.once = options.once;
+        if (this.once === undefined){
+            this.once = false;
+        }
+        if (this.showTrigger && this.once){
+            throw new Error("在启用了触发框时，您不能启用自动销毁");
+        }
 
         this.#id = Math.random().toString(36).substr(2);
         this.#requestHeaders = {"content-type": "application/json"};
         this.#nextNumber = 1;
         this.#pos = [];
         this.#verifyResult = {};
+        this.#destroyed = false;
 
-        if (this.showTrigger){
-            this.#container = container;
-        }else{
-            this.#container = document.createElement("div");
-            document.body.appendChild(this.#container);
-        }
         this.#initIcons();
         this.#initDOM();
         this.#bindEvents();
@@ -334,6 +358,9 @@ class SaobbyCaptchaV3{
     }
 
     async verify(){
+        if (this.#destroyed){
+            throw new Error("这个人机验证实例已被销毁，请重新创建实例");
+        }
         this.#elements.triggerDiv.innerHTML = this.#iconWithText("square", "点击进行人机验证");
         this.#setButtonHTML(this.#elements.triggerDiv, "...");
         const result = await this.#refreshChallenge();
@@ -342,10 +369,12 @@ class SaobbyCaptchaV3{
                 this.#setButtonHTML(this.#elements.triggerDiv);
                 this.#setTriggerSucceeded();
                 this.#elements.tokenInput.value = this.#verifyResult.result.data.token;
+                this.#autoDestroy();
                 return this.#verifyResult.result;
             }
             this.#setButtonHTML(this.#elements.triggerDiv);
             this.#elements.triggerDiv.innerHTML = `<span class="SCV3-result">错误:${result.msg}。请刷新页面后重试</span>`;
+            this.#autoDestroy();
             return result;
         }
         this.#open();
@@ -355,6 +384,7 @@ class SaobbyCaptchaV3{
             this.#setTriggerSucceeded();
             this.#elements.tokenInput.value = this.#verifyResult.result.data.token;
         }
+        this.#autoDestroy();
         return ret;
     }
 
@@ -435,5 +465,23 @@ class SaobbyCaptchaV3{
         this.#elements.triggerDiv.innerHTML = this.#iconWithText("check", "验证成功");
         this.#elements.triggerDiv.removeEventListener("click", this.#triggerVerifyFunc);
         this.#elements.triggerDiv.style.cursor = "default";
+    }
+    
+    destroy(){
+        if (this.#destroyed){
+            return;
+        }
+        if (this.#autoCreateContainer){
+            this.#container.remove();
+        }else{
+            this.#container.innerHTML = "";
+        }
+        this.#destroyed = true;
+    }
+
+    #autoDestroy(){
+        if (this.once){
+            this.destroy();
+        }
     }
 }
