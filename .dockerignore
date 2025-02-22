@@ -4,6 +4,7 @@
 __pycache__
 backgrounds
 fonts
+log
 .gitignore
 .gitattributes
 README.md

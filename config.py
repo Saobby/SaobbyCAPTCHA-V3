@@ -42,9 +42,9 @@ BYPASS_TIMES = 5 if os.environ.get("BYPASS_TIMES") is None else int(os.environ.g
 BYPASS_EXPIRATION_TIME = 300 if os.environ.get("BYPASS_EXPIRATION_TIME") is None else int(os.environ.get("BYPASS_EXPIRATION_TIME"))
 
 # Redis 地址
-REDIS_HOST = "redis" if os.environ.get("REDIS_HOST") is None else os.environ.get("REDIS_HOST")
+REDIS_HOST = "127.0.0.1" if os.environ.get("REDIS_HOST") is None else os.environ.get("REDIS_HOST")
 # Redis 端口
-REDIS_PORT = 6399 if os.environ.get("REDIS_PORT") is None else int(os.environ.get("REDIS_PORT"))
+REDIS_PORT = 6379 if os.environ.get("REDIS_PORT") is None else int(os.environ.get("REDIS_PORT"))
 # Redis 用户名(如果没有设置请留空)
 REDIS_USERNAME = "" if os.environ.get("REDIS_USERNAME") is None else os.environ.get("REDIS_USERNAME")
 # Redis 访问密码(如果没有设置请留空)
