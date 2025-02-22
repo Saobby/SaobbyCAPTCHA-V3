@@ -1,4 +1,4 @@
-FROM python:3.9-alpine
+FROM python:3.12-alpine
 
 LABEL maintainer="AXOLOTLTECH <s@saobby.com>"
 LABEL description="SaobbyCAPTCHA-V3"
