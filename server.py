@@ -1,6 +1,6 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, abort
 from server_util import gen_return, rate_limit, check_args, get_client_ip
-from config import CORS_ORIGIN, API_VERIFY_TOKEN_PATH
+from config import CORS_ORIGIN, API_VERIFY_TOKEN_PATH, ENABLE_TEST_PAGE
 import user_service
 import captcha_service
 
@@ -8,11 +8,13 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def test():
-    return render_template("test.html")
+def index():
+    if ENABLE_TEST_PAGE:
+        return render_template("test.html")
+    return abort(404)
 
 
-@app.route("/api/gen_challenge", methods=["post", "get"])
+@app.route("/api/gen_challenge", methods=["post"])
 @rate_limit
 def api_gen_challenge():
     ip = get_client_ip()

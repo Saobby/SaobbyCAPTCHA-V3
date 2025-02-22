@@ -6,8 +6,9 @@
     </head>
     <body>
         <form method="post" action="/">
+            <input type="text" name="username" placeholder="用户名"><br><br>
             <script src="/static/js/saobbyCaptchaV3.js"></script>
-            <div id="captcha-div"></div>
+            <div id="captcha-div"></div><br>
             <script>
                 const captcha = new SaobbyCaptchaV3({apiBaseUrl:"",showTrigger:true,container:document.getElementById("captcha-div")});
             </script>
