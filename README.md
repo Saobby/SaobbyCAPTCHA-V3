@@ -7,6 +7,7 @@
 https://github.com/user-attachments/assets/682f324c-f08e-4ade-834f-b3d34c1d2b94
 
 
+[在线预览](https://captcha-v3.saobby.com/)
 # 功能
 - 在完成一次验证码后，后几次可以不用再完成
 - 在空闲时预生成验证码图片，以应对突然的高并发访问
