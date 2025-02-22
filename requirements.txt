@@ -1,3 +1,7 @@
 pillow
 flask
 redis
+gunicorn
+gevent
+greenlet
+supervisor

@@ -1,0 +1,11 @@
+.git
+.idea
+.venv
+__pycache__
+backgrounds
+fonts
+templates
+.gitignore
+.gitattributes
+README.md
+words.txt

@@ -21,13 +21,19 @@ def init() -> None:
             if d.endswith(".preprocessed.jpg"):
                 path = (a + "/" + d).replace("\\", "/")
                 bg_image_paths.append(path)
+    if len(bg_image_paths) == 0:
+        raise RuntimeError("请在背景图片目录放置至少一张背景图")
     for a, b, c in os.walk(FONTS_DIR):
         for d in c:
             path = (a + "/" + d).replace("\\", "/")
             font_paths.append(path)
+    if len(font_paths) == 0:
+        raise RuntimeError("请在字体目录放置至少一个 TTF 字体")
     with open(WORDS_PATH, "r", encoding="utf-8") as f:
         lines = f.read().split("\n")
     words = [line for line in lines if 2 <= len(line) <= 5 and line not in words]  # 实测使用列表推导式比使用循环append快**很多**，尤其是在你有几万个词时
+    if len(words) == 0:
+        raise RuntimeError("请在词汇表文件中添加至少一个字数在[2,5]的词汇")
 
 
 def preprocess_bg_images() -> None:

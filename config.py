@@ -76,3 +76,11 @@ API_VERIFY_TOKEN_PATH = "/api/verify_token"
 
 # 设置是否启用测试页面，启用后，在访问根路径时会显示一个测试页面
 ENABLE_TEST_PAGE = True if os.environ.get("ENABLE_TEST_PAGE") is None else os.environ.get("ENABLE_TEST_PAGE").lower() == "true"
+
+# Gunicorn 监听的端口
+GUNICORN_PORT = 5000 if os.environ.get("GUNICORN_PORT") is None else int(os.environ.get("GUNICORN_PORT"))
+# Gunicorn 日志级别
+GUNICORN_LOG_LEVEL = "warning" if os.environ.get("GUNICORN_LOG_LEVEL") is None else os.environ.get("GUNICORN_LOG_LEVEL")
+
+# 访问日志和错误日志的存放目录
+LOGS_DIR = "./log" if os.environ.get("LOGS_DIR") is None else os.environ.get("LOGS_DIR")
