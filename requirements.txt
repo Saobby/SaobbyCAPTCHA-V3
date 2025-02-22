@@ -5,3 +5,4 @@ gunicorn
 gevent
 greenlet
 supervisor
+requests
