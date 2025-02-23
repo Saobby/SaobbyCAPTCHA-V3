@@ -86,7 +86,6 @@ docker run -d \
 **状态监控**:
 
 - 使用 `docker ps` 检查容器状态，如果为 `healthy` 则启动成功，如果一直是 `unhealthy`，请查看故障排除章节。
-
 - 如果使用了反向代理，查看 `captcha/log/access.log` 检查入站 IP 以确认 `REAL_IP_HEADER` 是否配置正确。
 
 ## 详细配置
@@ -116,17 +115,17 @@ docker run -d \
   |REDIS_RETRY_ON_TIMEOUT|Redis 请求超时时，是否重试|true|
   |REDIS_MAX_CONNECTIONS|Redis 连接池的最大连接数|1024|
   |REDIS_PREFIX|程序向 Redis 中存储内容时键的前缀(如果多个本验证码系统依赖同一个 Redis 实例，请设置不同的前缀)|saobby_captcha_|
-  |REAL_IP_HEADER|用于获取用户真实 IP 的请求头(比如 x-forwarded-for)，留空则使用网络连接中的 IP| |
+  |REAL_IP_HEADER|用于获取用户真实 IP 的请求头(比如 `x-forwarded-for`)，留空则使用网络连接中的 IP。**<u>如果使用了 Nginx 做反向代理，请务必正确设置此项！！！</u>**| |
   |CORS_ORIGIN|设置响应头中 Access-Control-Allow-Origin 的值。如果设置为 * , 则会赋值为请求头中 Origin 的值(老旧浏览器不支持通配符)|*|
-  |API_VERIFY_TOKEN_PATH|设置你的网站后端用于校验 token 的 API 的访问路径。由于本接口没有速率限制，应尽量避免外部访问，因此请设置一个其他人猜不到的路径。|/api/verify_token|
+  |API_VERIFY_TOKEN_PATH|设置你的网站后端用于校验 token 的 API 的访问路径。由于本接口没有速率限制，应尽量避免外部访问，**因此请设置一个其他人猜不到的路径。**|/api/verify_token|
   |ENABLE_TEST_PAGE|设置是否启用测试页面，启用后，在访问根路径时会显示一个测试页面|true|
-  |IMAGE_POOL_SIZE|在空闲时，程序会预先生成一些验证码图片，以便在访问量突然变大时快速应对。当预先生成的图片被消耗后，程序会自动填补新的图片，使可用的图片维持在一定数量。设置维持的数量的大小(设为 0 来禁用预生成)|500|
+  |IMAGE_POOL_SIZE|预生成验证码图片池大小（设为 `0` 禁用图片预生成）|500|
   |CHALLENGE_EXPIRATION_TIME|验证码的完成时限(单位: s)|300|
   |TOKEN_EXPIRATION_TIME|验证码完成后获得的 token 的有效期(单位: s)(不建议设置太长)|120|
   |RATE_LIMIT_TIME_INTERVAL|速率限制的测速区间(单位: s)|10|
   |RATE_LIMIT_MAX_AMOUNT|在 1 个测速区间内，最多访问的次数|10|
-  |RATE_LIMIT_ENABLE_PENALTY|达到速率限制时，是否认为该用户为可疑用户，并对其进行惩罚。惩罚: 成功完成一个验证码后，后几次仍然需要完成。|true|
-  |RATE_LIMIT_BAN_DURATION|惩罚有效时间(单位: s)|14400 (4 小时)|
+  |RATE_LIMIT_ENABLE_PENALTY|达到速率限制时，是否强制每次都需要完成验证码。|true|
+  |RATE_LIMIT_BAN_DURATION|达到速率限制的惩罚的有效时间(单位: s)|14400 (4 小时)|
   |BYPASS_TIMES|完成一个验证码后，后面的多少次可以不用再完成|5|
   |BYPASS_EXPIRATION_TIME|完成一个验证码后，后面几次可不用再完成的效果的有效期(单位: s)(不建议设置太长)|300|
   |TIP_FONT_SIZE|提示文本图片的字体大小|30|
@@ -240,9 +239,7 @@ def verify_token(token: str) -> bool:
 <details>
   <summary>点击展开后端接口详细说明</summary>
 
-  前端完成验证码后会得到一个验证码 token，并发送给后端。后端需要验证 token 的有效性，如果有效，则证明用户是真人。  
-  后端需要发送一个 HTTP 请求到验证码系统来验证 token。  
-  - 验证接口 URL: `http://你的服务器IP:端口/api/verify_token`(可在环境变量中配置)
+  - 验证接口 URL: `/api/verify_token`(可在环境变量中配置)
   - 请求方法: `POST`
   - 请求头:
     + `content-type`: `application/json` (**必须**，否则接口会响应 400)
@@ -250,7 +247,7 @@ def verify_token(token: str) -> bool:
   - 响应: 一个 JSON 字符串，结构如下:
     |键|类型|说明|示例|
     |---|---|---|---|
-    |retcode|integer|状态码|`0`: 成功查询(不代表token有效); `500`: 服务器内部错误;|
+    |retcode|integer|状态代码|`0`: 成功查询(不代表token有效); `500`: 服务器内部错误;|
     |msg|string|消息|"OK"|
     |data|object|结果，格式为`{"result": 查询结果}`，查询结果为`true`代表 token 有效，否则 token 无效|{"result": true}|
 </details>
