@@ -110,37 +110,37 @@ docker run -d \
 
   |键|描述|默认值|
   |---|---|---|
-  |REDIS_HOST|Redis 服务地址，可以是 IP 或域名|127.0.0.1|
-  |REDIS_PORT|Redis 端口|6379|
-  |REDIS_USERNAME|Redis 用户名(如果没有设置请留空)| |
-  |REDIS_PASSWORD|Redis 访问密码(如果没有设置请留空)| |
-  |REDIS_RETRY_ON_TIMEOUT|Redis 请求超时时，是否重试|true|
-  |REDIS_MAX_CONNECTIONS|Redis 连接池的最大连接数|1024|
-  |REDIS_PREFIX|程序向 Redis 中存储内容时键的前缀(如果多个本验证码系统依赖同一个 Redis 实例，请设置不同的前缀)|saobby_captcha_|
-  |REAL_IP_HEADER|用于获取用户真实 IP 的请求头(比如 `x-forwarded-for`)，留空则使用网络连接中的 IP。**<u>如果使用了 Nginx 做反向代理，请务必正确设置此项！！！</u>**| |
-  |CORS_ORIGIN|设置响应头中 Access-Control-Allow-Origin 的值。如果设置为 * , 则会赋值为请求头中 Origin 的值(老旧浏览器不支持通配符)|*|
-  |API_VERIFY_TOKEN_PATH|设置你的网站后端用于校验 token 的 API 的访问路径。由于本接口没有速率限制，应尽量避免外部访问，**因此请设置一个其他人猜不到的路径。**|/api/verify_token|
-  |ENABLE_TEST_PAGE|设置是否启用测试页面，启用后，在访问根路径时会显示一个测试页面|true|
-  |IMAGE_POOL_SIZE|预生成验证码图片池大小（设为 `0` 禁用图片预生成）|500|
-  |CHALLENGE_EXPIRATION_TIME|验证码的完成时限(单位: s)|300|
-  |TOKEN_EXPIRATION_TIME|验证码完成后获得的 token 的有效期(单位: s)(不建议设置太长)|120|
-  |RATE_LIMIT_TIME_INTERVAL|速率限制的测速区间(单位: s)|10|
-  |RATE_LIMIT_MAX_AMOUNT|在 1 个测速区间内，最多访问的次数|10|
-  |RATE_LIMIT_ENABLE_PENALTY|达到速率限制时，是否强制每次都需要完成验证码。|true|
-  |RATE_LIMIT_BAN_DURATION|达到速率限制的惩罚的有效时间(单位: s)|14400 (4 小时)|
-  |BYPASS_TIMES|完成一个验证码后，后面的多少次可以不用再完成|5|
-  |BYPASS_EXPIRATION_TIME|完成一个验证码后，后面几次可不用再完成的效果的有效期(单位: s)(不建议设置太长)|300|
-  |TIP_FONT_SIZE|提示文本图片的字体大小|30|
-  |CHALLENGE_FONT_SIZE|验证码图片中文字的大小|45|
-  |TIP_MAX_ROTATE_ANGLE|提示文本图片的字体最大旋转角度|20|
-  |CHALLENGE_MAX_ROTATE_ANGLE|验证码图片的字体最大旋转角度|45|
-  |BACKGROUND_IMAGES_DIR|容器内存放背景图片的目录，不建议修改，直接修改绑定宿主机的目录即可。|./backgrounds|
-  |FONTS_DIR|存放字体的目录，不建议修改，直接修改绑定宿主机的目录即可。|./fonts|
-  |WORDS_PATH|存放词汇列表(一行一个)的文本文件(UTF-8编码)，不建议修改，直接修改绑定宿主机的目录即可。|./words.txt|
-  |DO_INIT|程序启动时，是否进行初始化操作。初始化操作包括:将所有背景图片缩放到所需要的尺寸，并转换为 jpg 格式(不会重复转换);开始填充图片池; 不建议修改。|true|
-  |GUNICORN_PORT|容器内监听的端口。不建议修改，直接修改容器端口映射即可。|5000|
-  |GUNICORN_LOG_LEVEL|Gunicorn 日志级别。不建议修改。|warning|
-  |LOGS_DIR|容器内访问日志和错误日志的存放目录，不建议修改，直接修改绑定宿主机的目录即可。|./log|
+  |`REDIS_HOST`|Redis 服务地址，可以是 IP 或域名|127.0.0.1|
+  |`REDIS_PORT`|Redis 端口|6379|
+  |`REDIS_USERNAME`|Redis 用户名(如果没有设置请留空)| |
+  |`REDIS_PASSWORD`|Redis 访问密码(如果没有设置请留空)| |
+  |`REDIS_RETRY_ON_TIMEOUT`|Redis 请求超时时，是否重试|true|
+  |`REDIS_MAX_CONNECTIONS`|Redis 连接池的最大连接数|1024|
+  |`REDIS_PREFIX`|程序向 Redis 中存储内容时键的前缀(如果多个本验证码系统依赖同一个 Redis 实例，请设置不同的前缀)|saobby_captcha_|
+  |`REAL_IP_HEADER`|用于获取用户真实 IP 的请求头(比如 `x-forwarded-for`)，留空则使用网络连接中的 IP。**<u>如果使用了 Nginx 做反向代理，请务必正确设置此项！！！</u>**| |
+  |`CORS_ORIGIN`|设置响应头中 Access-Control-Allow-Origin 的值。如果设置为 * , 则会赋值为请求头中 Origin 的值(老旧浏览器不支持通配符)|*|
+  |`API_VERIFY_TOKEN_PATH`|设置你的网站后端用于校验 token 的 API 的访问路径。由于本接口没有速率限制，应尽量避免外部访问，**因此请设置一个其他人猜不到的路径。**|/api/verify_token|
+  |`ENABLE_TEST_PAGE`|设置是否启用测试页面，启用后，在访问根路径时会显示一个测试页面|true|
+  |`IMAGE_POOL_SIZE`|预生成验证码图片池大小（设为 `0` 禁用图片预生成）|500|
+  |`CHALLENGE_EXPIRATION_TIME`|验证码的完成时限(单位: s)|300|
+  |`TOKEN_EXPIRATION_TIME`|验证码完成后获得的 token 的有效期(单位: s)(不建议设置太长)|120|
+  |`RATE_LIMIT_TIME_INTERVAL`|速率限制的测速区间(单位: s)|10|
+  |`RATE_LIMIT_MAX_AMOUNT`|在 1 个测速区间内，最多访问的次数|10|
+  |`RATE_LIMIT_ENABLE_PENALTY`|达到速率限制时，是否强制每次都需要完成验证码。|true|
+  |`RATE_LIMIT_BAN_DURATION`|达到速率限制的惩罚的有效时间(单位: s)|14400 (4 小时)|
+  |`BYPASS_TIMES`|完成一个验证码后，后面的多少次可以不用再完成|5|
+  |`BYPASS_EXPIRATION_TIME`|完成一个验证码后，后面几次可不用再完成的效果的有效期(单位: s)(不建议设置太长)|300|
+  |`TIP_FONT_SIZE`|提示文本图片的字体大小|30|
+  |`CHALLENGE_FONT_SIZE`|验证码图片中文字的大小|45|
+  |`TIP_MAX_ROTATE_ANGLE`|提示文本图片的字体最大旋转角度|20|
+  |`CHALLENGE_MAX_ROTATE_ANGLE`|验证码图片的字体最大旋转角度|45|
+  |`BACKGROUND_IMAGES_DIR`|容器内存放背景图片的目录，不建议修改，直接修改绑定宿主机的目录即可。|./backgrounds|
+  |`FONTS_DIR`|存放字体的目录，不建议修改，直接修改绑定宿主机的目录即可。|./fonts|
+  |`WORDS_PATH`|存放词汇列表(一行一个)的文本文件(UTF-8编码)，不建议修改，直接修改绑定宿主机的目录即可。|./words.txt|
+  |`DO_INIT`|程序启动时，是否进行初始化操作。初始化操作包括:将所有背景图片缩放到所需要的尺寸，并转换为 jpg 格式(不会重复转换);开始填充图片池; 不建议修改。|true|
+  |`GUNICORN_PORT`|容器内监听的端口。不建议修改，直接修改容器端口映射即可。|5000|
+  |`GUNICORN_LOG_LEVEL`|Gunicorn 日志级别。不建议修改。|warning|
+  |`LOGS_DIR`|容器内访问日志和错误日志的存放目录，不建议修改，直接修改绑定宿主机的目录即可。|./log|
 </details>
 
 ---
@@ -194,26 +194,26 @@ document.getElementById("submit-btn").onclick = async () => {
 
   `SaobbyCaptchaV3` 是一个类，包含以下几个方法:  
   
-  - constructor(options) (创建对象)  
+  - `constructor(options)` (创建对象)  
     `options` 是一个 `object`，有以下几个键:
       |键|数据类型|是否必须|说明|默认值|
       |---|---|---|---|---|
-      |apiBaseUrl|string|是|验证码系统的公网访问地址，比如`https://captcha.your-site.com`(末尾没有`/`)。**强烈建议再使用 nginx 反向代理本验证码服务，以便对响应进行压缩和配置 SSL 证书**|无|
-      |showTrigger|bool|否|是否显示"点击进行人机验证"的框框|false|
-      |container|DOM 元素|否|设置验证码组件要放在哪个元素内(见示例)。如果设置了`showTrigger`为`true`则此项必须指定。|如果不指定会自动创建一个`div`标签用于放置组件|
-      |once|bool|否|在验证完一次后，是否销毁人机验证对象。如果设置了`showTrigger`为`true`则不能设置本项为`true`|false|
+      |`apiBaseUrl`|string|是|验证码系统的公网访问地址，比如`https://captcha.your-site.com`(末尾没有`/`)。**强烈建议再使用 nginx 反向代理本验证码服务，以便对响应进行压缩和配置 SSL 证书**|无|
+      |`showTrigger`|bool|否|是否显示"点击进行人机验证"的框框|false|
+      |`container`|DOM 元素|否|设置验证码组件要放在哪个元素内(见示例)。如果设置了`showTrigger`为`true`则此项必须指定。|如果不指定会自动创建一个`div`标签用于放置组件|
+      |`once`|bool|否|在验证完一次后，是否销毁人机验证对象。如果设置了`showTrigger`为`true`则不能设置本项为`true`|false|
   
-  - verify()  
+  - `verify()`  
     返回一个 `Promise`。调用时会进行人机验证，并返回结果。  
     这个 `Promise` 只会 resolve。  
     返回的结果是一个 `object`，结构如下:  
     |键|数据类型|说明|示例|
     |---|---|---|---|
-    |retcode|integer|验证结果的类型|`0`: 验证成功; `1`: 用户点了×关闭验证窗口; `429`: 请求过于频繁; `500`: 服务器内部错误; `-1`: 网络错误;|
-    |msg|string|错误消息|"用户取消了验证"|
-    |data|object|验证结果的数据值,如果验证成功,其中会包含验证码 token, 格式为`{token: "验证码 token"}`|{token: "xxxxxxxx"}|
+    |`retcode`|integer|验证结果的类型|`0`: 验证成功; `1`: 用户点了×关闭验证窗口; `429`: 请求过于频繁; `500`: 服务器内部错误; `-1`: 网络错误;|
+    |`msg`|string|错误消息|"用户取消了验证"|
+    |`data`|object|验证结果的数据值,如果验证成功,其中会包含验证码 token, 格式为`{token: "验证码 token"}`|{token: "xxxxxxxx"}|
   
-  - destroy()  
+  - `destroy()`  
     手动将验证码的 HTML 从 DOM 中移除，此操作不可逆，移除后无法再使用验证功能，需要重新创建验证码对象。
 </details>
 
@@ -256,9 +256,9 @@ def verify_token(token: str) -> bool:
   - 响应: 一个 JSON 字符串，结构如下:
     |键|类型|说明|示例|
     |---|---|---|---|
-    |retcode|integer|状态代码|`0`: 成功查询(不代表token有效); `500`: 服务器内部错误;|
-    |msg|string|消息|"OK"|
-    |data|object|结果，格式为`{"result": 查询结果}`，查询结果为`true`代表 token 有效，否则 token 无效|{"result": true}|
+    |`retcode`|integer|状态代码|`0`: 成功查询(不代表token有效); `500`: 服务器内部错误;|
+    |`msg`|string|消息|"OK"|
+    |`data`|object|结果，格式为`{"result": 查询结果}`，查询结果为`true`代表 token 有效，否则 token 无效|{"result": true}|
 </details>
 
 ---
