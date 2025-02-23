@@ -198,7 +198,7 @@ document.getElementById("submit-btn").onclick = async () => {
     `options` 是一个 `object`，有以下几个键:
       |键|数据类型|是否必须|说明|默认值|
       |---|---|---|---|---|
-      |apiBaseUrl|string|是|验证码系统的公网访问地址，比如`http://你的服务器IP:端口`(末尾没有`/`)。**强烈建议再使用 nginx 反向代理本验证码服务，以便对响应进行压缩和配置 SSL 证书**|无|
+      |apiBaseUrl|string|是|验证码系统的公网访问地址，比如`https://captcha.your-site.com`(末尾没有`/`)。**强烈建议再使用 nginx 反向代理本验证码服务，以便对响应进行压缩和配置 SSL 证书**|无|
       |showTrigger|bool|否|是否显示"点击进行人机验证"的框框|false|
       |container|DOM 元素|否|设置验证码组件要放在哪个元素内(见示例)。如果设置了`showTrigger`为`true`则此项必须指定。|如果不指定会自动创建一个`div`标签用于放置组件|
       |once|bool|否|在验证完一次后，是否销毁人机验证对象。如果设置了`showTrigger`为`true`则不能设置本项为`true`|false|
