@@ -80,12 +80,14 @@ docker run -d \
 
 **安全提示**：  
 
-- 强烈建议通过 Nginx 配置 HTTPS 反向代理，避免 Token 明文传输，还能对响应进行压缩。  
+- 强烈建议通过 Nginx 配置 HTTPS 反向代理，避免 Token 明文传输，还能对响应进行压缩。
+
 - 设置 `API_VERIFY_TOKEN_PATH` 为复杂路径（如 `/api/your_secret_verify`），防止 token 验证接口暴露。  
 
 **状态监控**:
 
 - 使用 `docker ps` 检查容器状态，如果为 `healthy` 则启动成功，如果一直是 `unhealthy`，请查看故障排除章节。
+
 - 如果使用了反向代理，查看 `captcha/log/access.log` 检查入站 IP 以确认 `REAL_IP_HEADER` 是否配置正确。
 
 ## 详细配置
@@ -190,7 +192,8 @@ document.getElementById("submit-btn").onclick = async () => {
 <details>
   <summary>点击展开前端接口详细说明</summary>
 
-  `SaobbyCaptchaV3` 是一个类，包含以下几种方法:  
+  `SaobbyCaptchaV3` 是一个类，包含以下几个方法:  
+  
   - constructor(options) (创建对象)  
     `options` 是一个 `object`，有以下几个键:
       |键|数据类型|是否必须|说明|默认值|
@@ -199,6 +202,7 @@ document.getElementById("submit-btn").onclick = async () => {
       |showTrigger|bool|否|是否显示"点击进行人机验证"的框框|false|
       |container|DOM 元素|否|设置验证码组件要放在哪个元素内(见示例)。如果设置了`showTrigger`为`true`则此项必须指定。|如果不指定会自动创建一个`div`标签用于放置组件|
       |once|bool|否|在验证完一次后，是否销毁人机验证对象。如果设置了`showTrigger`为`true`则不能设置本项为`true`|false|
+  
   - verify()  
     返回一个 `Promise`。调用时会进行人机验证，并返回结果。  
     这个 `Promise` 只会 resolve。  
@@ -208,6 +212,7 @@ document.getElementById("submit-btn").onclick = async () => {
     |retcode|integer|验证结果的类型|`0`: 验证成功; `1`: 用户点了×关闭验证窗口; `429`: 请求过于频繁; `500`: 服务器内部错误; `-1`: 网络错误;|
     |msg|string|错误消息|"用户取消了验证"|
     |data|object|验证结果的数据值,如果验证成功,其中会包含验证码 token, 格式为`{token: "验证码 token"}`|{token: "xxxxxxxx"}|
+  
   - destroy()  
     手动将验证码的 HTML 从 DOM 中移除，此操作不可逆，移除后无法再使用验证功能，需要重新创建验证码对象。
 </details>
@@ -240,10 +245,14 @@ def verify_token(token: str) -> bool:
   <summary>点击展开后端接口详细说明</summary>
 
   - 验证接口 URL: `/api/verify_token`(可在环境变量中配置)
+ 
   - 请求方法: `POST`
+  
   - 请求头:
     + `content-type`: `application/json` (**必须**，否则接口会响应 400)
+  
   - 载荷: 一个 JSON 字符串，包含要验证的 token。格式: `{"token": "xxxxxxxx"}`
+  
   - 响应: 一个 JSON 字符串，结构如下:
     |键|类型|说明|示例|
     |---|---|---|---|
@@ -262,6 +271,7 @@ def verify_token(token: str) -> bool:
   检查 `captcha/log/error.log`，常见报错：  
   
   - Redis 连接失败 → 检查是否正确设置 Redis 的地址和端口。  
+
   - 字体/图片加载失败 → 检查是否正确配置目录映射，并放入背景图片和字体
 
 ### 漏洞报告
@@ -274,6 +284,7 @@ def verify_token(token: str) -> bool:
 
 1. **性能优化**：  
    - 根据服务器内存调整 `IMAGE_POOL_SIZE`（每张验证码图片约占用 10KB）。  
+
 2. **安全性**：  
    - 定期更新 `words.txt` 中的词汇。  
 
@@ -284,8 +295,11 @@ def verify_token(token: str) -> bool:
 欢迎提交 Issue 或 PR！代码规范：  
 
 - 变量命名：`lower_case_with_underscores`  
+
 - 类命名：`UpperCamelCase`  
+
 - 字符串：统一使用双引号  
+
 - 缩进: 使用 4 个空格
 
 ---
