@@ -147,6 +147,14 @@ docker run -d \
 
 ## 前端集成
 
+在后端部署完成后，您需要在前端页面中引入验证码的 JavaScript 文件。该文件可以从以下路径获取：
+
+```html
+<script src="https://你的域名/static/js/saobbyCaptchaV3.js"></script>
+```
+
+请将 `你的域名` 替换为您实际部署验证码服务的域名。引入此脚本后，您就可以在页面中使用 `SaobbyCaptchaV3` 类来集成人机验证功能。
+
 ### 方式 1：表单自动嵌入
 
 ```html
