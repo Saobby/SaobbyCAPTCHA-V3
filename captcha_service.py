@@ -3,7 +3,7 @@ import image_generator
 import pickle
 import redis_api
 from config import IMAGE_POOL_SIZE, REDIS_PREFIX, CHALLENGE_EXPIRATION_TIME, CHALLENGE_FONT_SIZE, DO_INIT
-from util import gen_random_str
+from util import gen_safe_random_str
 import base64
 
 generator_lock = threading.Lock()  # 创建锁，保证同时最多有1个线程在生成图片
@@ -67,7 +67,7 @@ def create_captcha() -> tuple[str, str, str]:
         第三项是一个 str, 为验证图片的 url
     """
     challenge = get_challenge()
-    challenge_id = gen_random_str(8)
+    challenge_id = gen_safe_random_str(8)
     with redis_api.RedisSession() as db_session:
         db_session.setex(REDIS_PREFIX+"challenge_"+challenge_id, CHALLENGE_EXPIRATION_TIME, pickle.dumps(challenge))
     return challenge_id, \

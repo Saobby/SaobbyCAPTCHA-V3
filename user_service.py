@@ -1,7 +1,7 @@
 import redis_api
 from config import CHALLENGE_EXPIRATION_TIME, TOKEN_EXPIRATION_TIME, REDIS_PREFIX, RATE_LIMIT_TIME_INTERVAL, RATE_LIMIT_MAX_AMOUNT, RATE_LIMIT_BAN_DURATION, RATE_LIMIT_ENABLE_PENALTY, BYPASS_EXPIRATION_TIME, BYPASS_TIMES
 import pickle
-from util import gen_random_str
+from util import gen_safe_random_str
 
 
 def exceeded_rate_limit(user_id: str) -> bool:
@@ -61,7 +61,7 @@ def gen_token() -> str:
     生成一个新的 token
     :return: 一个 str, 为生成的 token
     """
-    token = gen_random_str(8)
+    token = gen_safe_random_str(8)
     with redis_api.RedisSession() as db_session:
         db_session.setex(REDIS_PREFIX+"token_"+token, TOKEN_EXPIRATION_TIME, "True")
     return token

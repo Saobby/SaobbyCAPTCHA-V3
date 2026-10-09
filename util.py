@@ -1,7 +1,7 @@
-import random
+import secrets
 
 
-def gen_random_str(lens: int = 64) -> str:
+def gen_safe_random_str(lens: int = 64) -> str:
     """
     生成指定长度的随机字符串
     :param lens: 随机字符串的长度
@@ -9,7 +9,7 @@ def gen_random_str(lens: int = 64) -> str:
     """
     ret = ""
     for i in range(lens):
-        ret += random.choice("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        ret += secrets.choice("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
     return ret
 
 
